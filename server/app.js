@@ -17,7 +17,14 @@ const app = express();
 // const express = require("express");
 // const mongoose = require("mongoose");
 // const http = require("http").Server(app);
-
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.use(bodyParser.json());
 
 // // const DB =
@@ -27,9 +34,29 @@ app.use(bodyParser.json());
 // //   res.send("Msg is render");
 // // });
 
-app.post("/product", mongoPractice.createProduct);
+app.get("/", (req, res) => {
+  res.send("Msg is render");
+});
 
-// app.get("/product", mongoPractice.getProduct);
+// // server.js (continued)
+// app.get("/api/data", (req, res) => {
+//   const data = { message: "Hello from Node!" };
+//   res.json(data);
+// });
+
+app.post("/product", mongoPractice.createResume);
+// app.post("/product", (req, res) => {
+//   if (!req.body || !req.body.name || !req.body.email || !req.body.password) {
+//     res.status(400).send({ message: "Bad Request" });
+//     return;
+//   }
+//   mongoPractice.createProduct(req, res).catch((err) => {
+//     console.error(err);
+//     res.status(500).send({ message: "Internal Server Error" });
+//   });
+// });
+
+app.get("/product", mongoPractice.getUser);
 
 app.listen(8080, (req, res) => {
   console.log("server is running at 8080");
